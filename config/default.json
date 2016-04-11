@@ -1,0 +1,9 @@
+{
+    "key": "deadbeef",
+    "web": {
+        "port": 3000
+    },
+    "db": {
+        "host": "http://couch:5984"
+    }
+}

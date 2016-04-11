@@ -1,0 +1,12 @@
+web:
+    image: node:onbuild
+    links:
+        - couch
+    ports:
+        - "8080:3000"
+    volumes:
+        - "./:/usr/src/app"
+couch:
+    image: couchdb
+    ports:
+        - "8081:5984"
