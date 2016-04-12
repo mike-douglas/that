@@ -6,7 +6,7 @@ var config = require('config'),
 
 app.use('/collect', proxy(config.get('db.host'), {
     filter: function(req, res) {
-        return url.parse(req.url, true).query.key == config.get('key')
+        return url.parse(req.url, true).query.key == config.get('key') || req.method == 'GET'
     },
     forwardPath: function(req, res) {
         var parsed = url.parse(req.url, true),
