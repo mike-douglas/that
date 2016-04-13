@@ -14,6 +14,7 @@ app.use('/collect', proxy(config.get('db.host'), {
             queryString = []
 
         delete query['key']
+        delete query['callback']
 
         for (var p in query) {
             if (query.hasOwnProperty(p)) {
@@ -22,8 +23,23 @@ app.use('/collect', proxy(config.get('db.host'), {
         }
 
         return `${parsed.pathname}?${queryString.join('&')}`
+    },
+    intercept: function(rsp, data, req, res, callback) {
+        var parsed = url.parse(req.url, true)
+
+        if (parsed.query.hasOwnProperty('callback')) {
+            callback(null, `${parsed.query.callback}(${data.toString('utf8')})`)
+        } else {
+            callback(null, data.toString('utf8')) // JSON.stringify(data))
+        }
     }
 }))
+
+app.use(function(req, res, next) {
+
+
+    next()
+})
 
 app.use(function(req, res, next) {
     console.log(`${new Date()}: ${req.originalUrl}`)
