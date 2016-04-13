@@ -27,6 +27,8 @@ app.use('/collect', proxy(config.get('db.host'), {
     intercept: function(rsp, data, req, res, callback) {
         var parsed = url.parse(req.url, true)
 
+        res.setHeader('Content-Type', 'application/json')
+
         if (parsed.query.hasOwnProperty('callback')) {
             callback(null, `${parsed.query.callback}(${data.toString('utf8')})`)
         } else {
@@ -34,12 +36,6 @@ app.use('/collect', proxy(config.get('db.host'), {
         }
     }
 }))
-
-app.use(function(req, res, next) {
-
-
-    next()
-})
 
 app.use(function(req, res, next) {
     console.log(`${new Date()}: ${req.originalUrl}`)
