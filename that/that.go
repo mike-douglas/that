@@ -1,12 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 
+	"github.com/mike-douglas/that/jsonpmiddleware"
 	"github.com/mike-douglas/that/proxy"
 )
 
@@ -29,10 +31,11 @@ func main() {
 
 	r.HandleFunc("/{that}/{thing}", validate(prox.Handle)).
 		Methods(http.MethodDelete, http.MethodPost, http.MethodPut)
-	r.HandleFunc("/{that}/{thing}", prox.Handle).
+	r.HandleFunc("/{that}/{thing}", jsonpmiddleware.HandleJSONP(prox.Handle)).
 		Methods(http.MethodGet)
-	r.HandleFunc("/{that}", prox.Handle).
+	r.HandleFunc("/{that}", jsonpmiddleware.HandleJSONP(prox.Handle)).
 		Methods(http.MethodGet)
 
+	fmt.Printf("Listening on %s\n", ":8080")
 	http.ListenAndServe(":8080", handlers.LoggingHandler(os.Stdout, r))
 }
