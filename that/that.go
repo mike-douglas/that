@@ -26,6 +26,8 @@ func validate(next http.HandlerFunc) http.HandlerFunc {
 }
 
 func main() {
+	fmt.Printf("Key: %s\nDB: %s\n\n", os.Getenv("THAT_AUTH_KEY"), os.Getenv("THAT_COUCH_DB"))
+
 	r := mux.NewRouter()
 	prox := prox.New(os.Getenv("THAT_COUCH_DB"))
 
@@ -33,6 +35,8 @@ func main() {
 		Methods(http.MethodDelete, http.MethodPost, http.MethodPut)
 	r.HandleFunc("/{that}/{thing}", jsonpmiddleware.HandleJSONP(prox.Handle)).
 		Methods(http.MethodGet)
+	r.HandleFunc("/{that}", validate(prox.Handle)).
+		Methods(http.MethodDelete, http.MethodPost, http.MethodPut)
 	r.HandleFunc("/{that}", jsonpmiddleware.HandleJSONP(prox.Handle)).
 		Methods(http.MethodGet)
 
