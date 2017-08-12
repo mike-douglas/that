@@ -19,9 +19,15 @@
   revision = "bcd8bc72b08df0f70df986b97f95590779502d31"
   version = "v1.4.0"
 
+[[projects]]
+  branch = "master"
+  name = "github.com/hashicorp/go-uuid"
+  packages = ["."]
+  revision = "64130c7a86d732268a38cb04cfbaf0cc987fda98"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "08aa31f9c5427850b927e975ca9bc12f0bdecd23c97d71ba9c1c3538f3d702d3"
+  inputs-digest = "2550ede6c9847609abca40214de5bd53dd2018892afdd3f1be00a968c8c34699"
   solver-name = "gps-cdcl"
   solver-version = 1
