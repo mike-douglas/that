@@ -1,11 +1,13 @@
 FROM golang:1.8-alpine
 
-WORKDIR /go/src/that
-ADD . .
+WORKDIR /go/src
 
 RUN apk add --no-cache git
 RUN go get -v github.com/golang/dep/cmd/dep
 
-RUN dep ensure
+RUN git clone http://github.com/mike-douglas/that.git
+WORKDIR /go/src/github.com/mike-douglas/that
 
-CMD ["go", "run", "that.go"]
+RUN git checkout -b golang && dep ensure
+
+CMD ["go", "run", "that/that.go"]
