@@ -21,7 +21,7 @@ func HandleJSONP(next http.HandlerFunc) http.HandlerFunc {
 
 			w.Header().Set("Content-Type", "application/json")
 
-			fmt.Fprintf(w, "%s(%x)", callback, rr.Body.String())
+			fmt.Fprintf(w, "%s(%s)", callback, rr.Body.String())
 		} else {
 			next(w, r)
 		}
