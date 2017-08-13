@@ -45,6 +45,10 @@ func main() {
 	r := mux.NewRouter()
 	prox := prox.New(os.Getenv("THAT_COUCH_DB"))
 
+	// Handle the special CouchDB endpoint to always require the key
+	r.HandleFunc("/_all_dbs", validate(prox.Handle)).
+		Methods(http.MethodDelete, http.MethodPut, http.MethodGet)
+
 	r.HandleFunc("/{that}/{thing}", validate(prox.Handle)).
 		Methods(http.MethodDelete, http.MethodPost, http.MethodPut)
 	r.HandleFunc("/{that}/{thing}", jsonpmiddleware.HandleJSONP(prox.Handle)).
