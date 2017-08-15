@@ -6,7 +6,9 @@ web:
   links:
     - couch
   ports:
-    - "5003:8080"
+    - "8080:8080"
+  volumes:
+    - ".:/go/src/github.com/mike-douglas/that"
 
 couch:
   image: couchdb
